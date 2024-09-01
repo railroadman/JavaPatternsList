@@ -1,3 +1,195 @@
+# Design Patterns: Overview and Implementations
+
+This document provides an overview of both creational and structural design patterns implemented in our project.
+
+## Creational Design Patterns
+
+Creational design patterns are concerned with the way of creating objects. These patterns are used when a decision must be made at the time of instantiation of a class.
+
+### 1. Singleton
+
+**Description:** The Singleton pattern ensures a class has only one instance and provides a global point of access to it.
+
+**Implementation Example:** We created a Singleton class that manages a single instance of itself.
+
+**Diagram:**
+
+```mermaid
+classDiagram
+    class Singleton {
+        -static instance: Singleton
+        -Singleton()
+        +static getInstance(): Singleton
+        +showMessage()
+    }
+    Singleton --> Singleton : creates
+```
+
+### 2. Factory Method
+
+**Description:** The Factory Method pattern defines an interface for creating an object, but lets subclasses decide which class to instantiate.
+
+**Implementation Example:** We implemented a vehicle factory that can create different types of vehicles.
+
+**Diagram:**
+
+```mermaid
+classDiagram
+    class Vehicle {
+        <<interface>>
+        +drive()
+    }
+    class Car {
+        +drive()
+    }
+    class Motorcycle {
+        +drive()
+    }
+    class VehicleFactory {
+        <<abstract>>
+        +createVehicle(): Vehicle
+        +testDrive()
+    }
+    class CarFactory {
+        +createVehicle(): Vehicle
+    }
+    class MotorcycleFactory {
+        +createVehicle(): Vehicle
+    }
+    Vehicle <|.. Car
+    Vehicle <|.. Motorcycle
+    VehicleFactory <|-- CarFactory
+    VehicleFactory <|-- MotorcycleFactory
+    VehicleFactory ..> Vehicle
+```
+
+### 3. Abstract Factory
+
+**Description:** The Abstract Factory pattern provides an interface for creating families of related or dependent objects without specifying their concrete classes.
+
+**Implementation Example:** We created an abstract factory for producing different types of food items in different cuisines.
+
+**Diagram:**
+
+```mermaid
+classDiagram
+    class FoodFactory {
+        <<interface>>
+        +createBurger(): Burger
+        +createDrink(): Drink
+    }
+    class USAFoodFactory {
+        +createBurger(): Burger
+        +createDrink(): Drink
+    }
+    class JapanFoodFactory {
+        +createBurger(): Burger
+        +createDrink(): Drink
+    }
+    class Burger {
+        <<interface>>
+        +getDescription(): String
+    }
+    class USABurger {
+        +getDescription(): String
+    }
+    class JapanBurger {
+        +getDescription(): String
+    }
+    class Drink {
+        <<interface>>
+        +getDescription(): String
+    }
+    class USADrink {
+        +getDescription(): String
+    }
+    class JapanDrink {
+        +getDescription(): String
+    }
+    FoodFactory <|.. USAFoodFactory
+    FoodFactory <|.. JapanFoodFactory
+    Burger <|.. USABurger
+    Burger <|.. JapanBurger
+    Drink <|.. USADrink
+    Drink <|.. JapanDrink
+    USAFoodFactory ..> USABurger
+    USAFoodFactory ..> USADrink
+    JapanFoodFactory ..> JapanBurger
+    JapanFoodFactory ..> JapanDrink
+```
+
+### 4. Builder
+
+**Description:** The Builder pattern separates the construction of a complex object from its representation, allowing the same construction process to create various representations.
+
+**Implementation Example:** We implemented a phone builder that can create different configurations of phones.
+
+**Diagram:**
+
+```mermaid
+classDiagram
+    class Phone {
+        -model: String
+        -processor: String
+        -memory: String
+        -camera: String
+        -battery: String
+    }
+    class PhoneBuilder {
+        <<interface>>
+        +setModel(model: String): PhoneBuilder
+        +setProcessor(processor: String): PhoneBuilder
+        +setMemory(memory: String): PhoneBuilder
+        +setCamera(camera: String): PhoneBuilder
+        +setBattery(battery: String): PhoneBuilder
+        +build(): Phone
+    }
+    class SmartphoneBuilder {
+        -phone: Phone
+        +setModel(model: String): PhoneBuilder
+        +setProcessor(processor: String): PhoneBuilder
+        +setMemory(memory: String): PhoneBuilder
+        +setCamera(camera: String): PhoneBuilder
+        +setBattery(battery: String): PhoneBuilder
+        +build(): Phone
+    }
+    PhoneBuilder <|.. SmartphoneBuilder
+    SmartphoneBuilder ..> Phone
+```
+
+### 5. Prototype
+
+**Description:** The Prototype pattern specifies the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.
+
+**Implementation Example:** We created a document prototype system where new documents can be created by cloning existing ones.
+
+**Diagram:**
+
+```mermaid
+classDiagram
+    class DocumentPrototype {
+        <<interface>>
+        +clone(): DocumentPrototype
+        +setContent(content: String)
+        +getContent(): String
+    }
+    class Document {
+        -name: String
+        -content: String
+        +clone(): DocumentPrototype
+        +setContent(content: String)
+        +getContent(): String
+    }
+    class DocumentManager {
+        -templates: Map<String, DocumentPrototype>
+        +addTemplate(key: String, doc: DocumentPrototype)
+        +createDocument(key: String): DocumentPrototype
+    }
+    DocumentPrototype <|.. Document
+    DocumentManager --> DocumentPrototype
+```
+
+
 # Structural Design Patterns
 
 In this project, we have implemented seven core structural design patterns. Below is a brief description of each pattern, an implementation example, and a diagram.
