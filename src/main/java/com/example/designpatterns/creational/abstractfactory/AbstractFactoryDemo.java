@@ -1,5 +1,6 @@
 package com.example.designpatterns.creational.abstractfactory;
 
+
 // Abstract Products
 interface Burger {
     String getDescription();
